@@ -40,7 +40,6 @@ class Bugsmusic(object):
         self.df = pd.DataFrame.from_dict(dt, orient='index')
         print(self.df)
 
-
     def df_to_csv(self):
         path = './data/bugs.csv'
         self.df.to_csv(path, sep=',', na_rep='NaN')
@@ -57,7 +56,7 @@ class Bugsmusic(object):
             if menu == 0:
                 break
             elif menu == '1':
-                bugs.time = input('시간입력')#chartdate=20210527&charthour=16
+                bugs.time = input('시간입력')     #chartdate=20210527&charthour=16
                 bugs.set_url()
             elif menu == '2':
                 bugs.class_name.append("artist")

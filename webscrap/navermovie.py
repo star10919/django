@@ -1,0 +1,55 @@
+import pandas as pd
+from bs4 import BeautifulSoup
+from selenium import webdriver  #네이버꺼 가져오려면
+
+class Navermovie(object):
+    url = 'https://movie.naver.com/movie/sdb/rank/rmovie.nhn?'
+    class_name = ''  #비워놓으면 input으로 외부에서 값을 받아라 라는 뜻임
+    driver_path = 'c:/Program Files/Google/Chrome/chromedriver'
+    # driver = 'C://Program Files//Google//Chrome//chromedriver' 이렇게 표기할수도 있다.
+    title_ls = []
+    dict = {}
+    df = None
+
+    def scrap(self):
+        driver = webdriver.Chrome(self.driver_path)   #생성자() 처리해주기
+        driver.get(self.url)  #크롬드라이버땅에 URL을 주는 것임(내땅에 가져오는게 아님/보안때문에)-그래서프레임워크임
+        all_div = BeautifulSoup(driver.page_source, 'html.parser')  #lxml안먹음, 'html.parser'쓰기
+        ##self.title_ls = [i.find('a').text for i in all_div.find_all("div","")]
+        print(self.title_ls)
+        driver.close()
+
+
+        # data = soup.find_all("div", {"class": self.class_name})
+        # print(soup.find_all("div", {"class": self.class_name}))
+        # self.dict = {i:j for i, j in enumerate(data.find("a").text)}
+        # for i, j in enumerate(data.a.text):
+        #     self.dict[i] = j
+
+    def insert_dict(self):
+        # rank = [1, 2, 3, 4, 5, ..., 50]
+        rank = []
+        for i in range(1, 50):
+            rank.append(i)
+        print(f'asd{zip(rank, self.title_ls)}')
+        for i, j in zip(rank, self.title_ls):
+            self.dict[i] = j
+        print(self.dict)
+
+    def dict_to_dataframe(self):
+        dt = self.dict
+        self.df = pd.DataFrame.from_dict(dt, orient='index')
+        print(self.df)
+
+    def df_to_csv(self):
+        path = './data/navermovie.csv'
+        self.df.to_csv(path, sep=',', na_rep='Nan')
+
+
+if __name__ == '__main__':
+    naver = Navermovie()
+    naver.class_name = "tit3"
+    naver.scrap()
+    naver.insert_dict()
+    naver.dict_to_dataframe()
+    naver.df_to_csv()
