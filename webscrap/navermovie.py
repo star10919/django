@@ -15,8 +15,10 @@ class Navermovie(object):
         driver = webdriver.Chrome(self.driver_path)   #생성자() 처리해주기
         driver.get(self.url)  #크롬드라이버땅에 URL을 주는 것임(내땅에 가져오는게 아님/보안때문에)-그래서프레임워크임
         all_div = BeautifulSoup(driver.page_source, 'html.parser')  #lxml안먹음, 'html.parser'쓰기
-        ##self.title_ls = [i.find('a').text for i in all_div.find_all("div","")]
-        print(self.title_ls)
+        ls = all_div.find_all("div", {"class": "tit3"})
+        for i in ls:
+            print(i.find("a").text)
+            self.title_ls.append(i.find("a").text)
         driver.close()
 
 
@@ -29,12 +31,12 @@ class Navermovie(object):
     def insert_dict(self):
         # rank = [1, 2, 3, 4, 5, ..., 50]
         rank = []
-        for i in range(1, 50):
+        for i in range(1, 51):
             rank.append(i)
-        print(f'asd{zip(rank, self.title_ls)}')
+
         for i, j in zip(rank, self.title_ls):
             self.dict[i] = j
-        print(self.dict)
+            print(f'{i}:{j}')
 
     def dict_to_dataframe(self):
         dt = self.dict
@@ -45,11 +47,22 @@ class Navermovie(object):
         path = './data/navermovie.csv'
         self.df.to_csv(path, sep=',', na_rep='Nan')
 
+    @staticmethod
+    def main():
+        nm = Navermovie()
+        while 1:
+            menu = int(input('0-exit\n1-scrap&Ranking\n2-insert dict\n3-dataframe\n4-csv'))
+            if menu == 0:
+                break
+            elif menu == 1:
+                nm.scrap()
+            elif menu == 2:
+                nm.insert_dict()
+            elif menu == 3:
+                nm.dict_to_dataframe()
+            elif menu == 4:
+                nm.df_to_csv()
+            else:
+                continue
 
-if __name__ == '__main__':
-    naver = Navermovie()
-    naver.class_name = "tit3"
-    naver.scrap()
-    naver.insert_dict()
-    naver.dict_to_dataframe()
-    naver.df_to_csv()
+Navermovie.main()
