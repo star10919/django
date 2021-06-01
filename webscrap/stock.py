@@ -10,6 +10,11 @@ class Stock(object):
     class_name = []
     name_ls = []
     price_ls = []
+    change_ls = []
+    change_money_ls = []
+
+    def set_url(self):
+        pass
 
     def scrap(self):
         driver = webdriver.Chrome(self.driver_path)
@@ -24,14 +29,18 @@ class Stock(object):
         ls = all_div.find_all("td", {"class": self.class_name[1]})
         for i in ls:
             print(i.find("td").text)
-            self.name_ls.append(i.find("a").text)
-
-
+            self.price_ls.append(i.find("a").text)
+        print('<<<변동>>>')
+        ls = all_div.find_all("td", {"class": self.class_name[2]})
+        for i in ls:
+            print(i.find("img").text)
+            self.change_ls.append(i.find("img").text)
+        print('<<<변동폭>>>')
+        ls = all_div.find_all("td", {"class": self.class_name[3]})
+        for i in ls:
+            print(i.find("span").text)
+            self.change_money_ls.append(i.find("span").text)
         driver.close()
-
-
-
-    def set_url(self):
 
     @staticmethod
     def main():
@@ -46,7 +55,8 @@ class Stock(object):
             elif m == 2:
                 s.class_name.append("title")
                 s.class_name.append("number")
-
+                s.class_name.append("number")
+                s.class_name.append("number")
                 s.scrap()
             elif m == 3:
                 pass
