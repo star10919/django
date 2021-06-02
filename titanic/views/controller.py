@@ -34,6 +34,7 @@ class Controller(object):  # 후크로 이루어져 있음
         # 초기 모델 생성
         this.train = service.new_model(train)
         this.test = service.new_model(test)
+        this.id = this.test['PassengerId']
         # norminal, ordinal 로 정형화
         this = service.embarked_nominal(this)
         this = service.title_norminal(this)

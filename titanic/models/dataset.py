@@ -6,8 +6,8 @@ class Dataset(object): #type정의 무조건 해줘야 함(표준임) // init �
 
     context: str
     fname: str
-    train: str
-    test: str
+    train: object  # DF는 object로 하기
+    test: object
     id: str
     label: str
 
@@ -28,7 +28,7 @@ class Dataset(object): #type정의 무조건 해줘야 함(표준임) // init �
         self._fname = fname
 
     @property
-    def train(self) -> str:
+    def train(self) -> object:
         return self._train
 
     @train.setter
@@ -36,7 +36,7 @@ class Dataset(object): #type정의 무조건 해줘야 함(표준임) // init �
         self._train = train
 
     @property
-    def test(self) -> str:
+    def test(self) -> object:
         return self._test
 
     @test.setter
