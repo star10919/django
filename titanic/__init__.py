@@ -17,11 +17,10 @@ if __name__ == '__main__':
             #plot.draw_sex()
             #plot.draw_embarked()
         elif menu == 2:
-            df = controller.modeling('train.csv', 'test.csv')
-
+            df = controller.modeling('train.csv', 'test.csv')  # 알고리즘 짜고 조립하기
         elif menu == 3:
-            pass
+            df = controller.learning('train.csv', 'test.csv')  # 머신러닝 정확도 보기
         elif menu == 4:
-            pass
+            df = controller.submit('train.csv', 'test.csv')
         else:
             continue
