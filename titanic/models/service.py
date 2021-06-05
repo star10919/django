@@ -32,10 +32,9 @@ class Service(object):  #머신러닝(알고리즘)
         return this
 
     @staticmethod
-    def embarked_nominal(this) -> object: #파라미터가 없는 리턴은 없음
+    def embarked_norminal(this) -> object: #파라미터가 없는 리턴은 없음
         this.train = this.train.fillna({'Embarked': 'S'})  #NA값 fillna하는 코딩/*꼭 딕셔너리 형태로 넣어주기
         this.test = this.test.fillna({'Embarked': 'S'})
-        print(f'타입체크 {this.train["Embarked"]}')
         # map 함수를 사용하여 S : 1, C : 2, Q : 3
         this.train['Embarked'] = this.train['Embarked'].map({'S': 1, 'C': 2, 'Q': 3})
         this.test['Embarked'] = this.test['Embarked'].map({'S': 1, 'C': 2, 'Q': 3})
@@ -51,7 +50,6 @@ class Service(object):  #머신러닝(알고리즘)
         for these in this.train, this.test:
             these['FareBand'] = pd.cut(these['Fare'], bins=bins, labels=[1, 2, 3, 4])  # {[labels]:[bins]}
         return this
-
 
     @staticmethod
     def title_norminal(this) -> object:
@@ -99,7 +97,8 @@ class Service(object):  #머신러닝(알고리즘)
     def create_k_fold() -> object:
         return KFold(n_splits=10, shuffle=True, random_state=0) #트레인데이터를 10등분/shuffle=True : 반복
 
-    def accuracy_by_svm(self, this):
+    @staticmethod
+    def accuracy_by_svm(this):
         score = cross_val_score(SVC(),
                                 this.train,
                                 this.label,

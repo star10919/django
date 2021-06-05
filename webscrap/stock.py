@@ -21,7 +21,7 @@ class Stock(object):
         driver.get(self.url)
         all_div = BeautifulSoup(driver.page_source, 'html.parser')
         print('<<<종목명>>>')
-        ls = all_div.find_all("a", {"class": self.class_name[0]})
+        ls = all_div.find_all("td", {"class": self.class_name[0]})
         for i in ls:
             print(i.find("a").text)
             self.name_ls.append(i.find("a").text)
@@ -45,7 +45,6 @@ class Stock(object):
     @staticmethod
     def main():
         s = Stock()
-
         while 1:
             m = int(input('0-break\n1-get stock\n2-dict\n3-dataframe\n4-csv'))
             if m == 0:
@@ -53,7 +52,7 @@ class Stock(object):
             elif m == 1:
                 s.set_url()
             elif m == 2:
-                s.class_name.append("title")
+                s.class_name.append("no")
                 s.class_name.append("number")
                 s.class_name.append("number")
                 s.class_name.append("number")

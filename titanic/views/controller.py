@@ -23,7 +23,7 @@ class Controller(object):  # 후크로 이루어져 있음
 
     def submit(self, train, test):
         this = self.modeling(train, test)
-        clf = RandomForestClassifier()  # clf 는생산자와 사망자의 분류기
+        clf = RandomForestClassifier()  # clf 는 생산자와 사망자의 분류기
         clf.fit(this.train, this.label)  # train=문제, label=답
         prediction = clf.predict(this.test)
         pd.DataFrame({'PassengerId': this.id, 'Survived': prediction}).to_csv('./data/submission.csv', index=False)
@@ -36,12 +36,12 @@ class Controller(object):  # 후크로 이루어져 있음
         this.test = service.new_model(test)
         this.id = this.test['PassengerId']
         # norminal, ordinal 로 정형화
-        this = service.embarked_nominal(this)
+        this = service.embarked_norminal(this)
         this = service.title_norminal(this)
         this = service.gender_norminal(this)
-        # 불필요한 feature 제거
         this = service.age_ordinal(this)
         this = service.fare_ordinal(this)
+        # 불필요한 feature 제거
         this = service.drop_feature(this, 'Name', 'Sex', 'Cabin', 'Ticket', 'Age', 'Fare')  #이름을 추출한 뒤 지워야 됨.(위쪽에다 쓰면 안됨) **순서(프로세스)중요**
 
         self.print_this(this)
